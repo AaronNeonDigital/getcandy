@@ -4,19 +4,19 @@ uses(\Lunar\Tests\Core\TestCase::class);
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 use Lunar\FieldTypes\Text;
-use Lunar\Models\Brand;
 use Lunar\Generators\UrlGenerator;
+use Lunar\Models\Brand;
 
 beforeEach(function () {
-    $this->generator = new UrlGenerator();
+    $this->generator = new UrlGenerator;
 });
 
 test('creates url from name column', function () {
     $brand = Brand::create([
         'name' => 'Test Brand',
         'attribute_data' => [
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     $this->generator->handle($brand);
@@ -31,8 +31,8 @@ test('creates url from attribute data name', function () {
         'name' => null,
         'attribute_data' => [
             'name' => new Text('Attribute Brand Name'),
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     $this->generator->handle($brand);
@@ -47,8 +47,8 @@ test('prefers column name over attribute name', function () {
         'name' => 'Column Brand Name',
         'attribute_data' => [
             'name' => new Text('Attribute Brand Name'),
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     $this->generator->handle($brand);
@@ -62,8 +62,8 @@ test('does not create url when both names are missing', function () {
     $brand = Brand::create([
         'name' => null,
         'attribute_data' => [
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     $this->generator->handle($brand);
@@ -73,7 +73,7 @@ test('does not create url when both names are missing', function () {
 
 test('does not create duplicate urls for same brand', function () {
     $brand = Brand::create([
-        'name' => 'Test Brand'
+        'name' => 'Test Brand',
     ]);
 
     // Create initial URL
