@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Lunar\FieldTypes\Text;
 use Lunar\Generators\UrlGenerator;
+use Lunar\Models\Brand;
 use Lunar\Models\Language;
 use Lunar\Models\Product;
-use Lunar\Models\Brand;
 use Lunar\Models\Url;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -75,8 +75,8 @@ test('prefers column name over attribute name', function () {
         'name' => 'Column Brand Name',
         'attribute_data' => [
             'name' => new Text('Attribute Brand Name'),
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     expect($brand->defaultUrl)
