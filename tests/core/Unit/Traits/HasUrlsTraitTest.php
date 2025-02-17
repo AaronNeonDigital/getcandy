@@ -69,6 +69,8 @@ test('prefers column name over attribute name', function () {
 
     Language::factory()->create(['default' => true]);
 
+    Config::set('lunar.urls.generator', UrlGenerator::class);
+
     $brand = Brand::create([
         'name' => 'Column Brand Name',
         'attribute_data' => [
@@ -77,7 +79,23 @@ test('prefers column name over attribute name', function () {
         ]
     ]);
 
-    expect($brand->urls)
-        ->toHaveCount(1)
+    expect($brand->defaultUrl)
+        ->first()->slug->toBe('column-brand-name');
+});
+
+test('column_will_be_used_if_not_set_in_attributes', function () {
+
+    Language::factory()->create(['default' => true]);
+
+    Config::set('lunar.urls.generator', UrlGenerator::class);
+
+    $brand = Brand::create([
+        'name' => 'Column Brand Name',
+        'attribute_data' => [
+            'type' => new Text('Some Type')
+        ]
+    ]);
+
+    expect($brand->defaultUrl)
         ->first()->slug->toBe('column-brand-name');
 });
