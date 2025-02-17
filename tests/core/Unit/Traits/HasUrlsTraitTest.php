@@ -8,6 +8,7 @@ use Lunar\FieldTypes\Text;
 use Lunar\Generators\UrlGenerator;
 use Lunar\Models\Language;
 use Lunar\Models\Product;
+use Lunar\Models\Brand;
 use Lunar\Models\Url;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -62,4 +63,21 @@ test('generates unique urls', function () {
         $product1->urls->first()->slug,
         $product2->urls->first()->slug
     );
+});
+
+test('prefers column name over attribute name', function () {
+
+    Language::factory()->create(['default' => true]);
+
+    $brand = Brand::create([
+        'name' => 'Column Brand Name',
+        'attribute_data' => [
+            'name' => new Text('Attribute Brand Name'),
+            'type' => new Text('Some Type')
+        ]
+    ]);
+
+    expect($brand->urls)
+        ->toHaveCount(1)
+        ->first()->slug->toBe('column-brand-name');
 });
