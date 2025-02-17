@@ -92,8 +92,8 @@ test('column_will_be_used_if_not_set_in_attributes', function () {
     $brand = Brand::create([
         'name' => 'Column Brand Name',
         'attribute_data' => [
-            'type' => new Text('Some Type')
-        ]
+            'type' => new Text('Some Type'),
+        ],
     ]);
 
     expect($brand->defaultUrl)
